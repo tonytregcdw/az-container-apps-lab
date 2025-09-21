@@ -10,7 +10,7 @@ on:
         description: 'select environment'
         required: true
         type: choice
-        default: 'test'
+        default: 'blah'
         options:
           - test
           - prod
