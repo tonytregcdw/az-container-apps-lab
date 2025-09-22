@@ -33,37 +33,37 @@ resource "azurerm_container_app_environment" "r1_containerappenv_01" {
         workload_profile_type = "Consumption"
     }
 
-    internal_load_balancer_enabled = true
-    infrastructure_subnet_id = module.spokevnets_r1_app.subnetmap["snet-app-${var.env}-containerapps-01"].id
+    internal_load_balancer_enabled = false
+    # infrastructure_subnet_id = module.spokevnets_r1_app.subnetmap["snet-app-${var.env}-containerapps-01"].id
 }
 
 
-#Local DNS private zone for app environment
-resource "azurerm_private_dns_zone" "r1_containerappenv_01_zone" {
-    provider            = azurerm.app
-    name                = azurerm_container_app_environment.r1_containerappenv_01.default_domain
-    resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
-    tags = {
-        Application-Taxonomy   = "DNS"
-        Environment            = var.env
-        Department             = var.tag_Department
-        Terraform              = "Yes"
-    }
-}
+# #Local DNS private zone for app environment
+# resource "azurerm_private_dns_zone" "r1_containerappenv_01_zone" {
+#     provider            = azurerm.app
+#     name                = azurerm_container_app_environment.r1_containerappenv_01.default_domain
+#     resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
+#     tags = {
+#         Application-Taxonomy   = "DNS"
+#         Environment            = var.env
+#         Department             = var.tag_Department
+#         Terraform              = "Yes"
+#     }
+# }
 
-resource "azurerm_private_dns_zone_virtual_network_link" "r1_containerappenv_01_dnslink_app" {
-  name                = "dnslink-${module.spokevnets_r1_app.vnet.name}"
-  provider            = azurerm.app
-  resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
-  private_dns_zone_name = azurerm_private_dns_zone.r1_containerappenv_01_zone.name
-  virtual_network_id    = module.spokevnets_r1_app.vnet.id
-  tags = {
-    Environment            = var.env
-    Application-Taxonomy   = "DNS"
-    Department             = var.tag_Department
-    Terraform              = "Yes"
-  }
-}
+# resource "azurerm_private_dns_zone_virtual_network_link" "r1_containerappenv_01_dnslink_app" {
+#   name                = "dnslink-${module.spokevnets_r1_app.vnet.name}"
+#   provider            = azurerm.app
+#   resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
+#   private_dns_zone_name = azurerm_private_dns_zone.r1_containerappenv_01_zone.name
+#   virtual_network_id    = module.spokevnets_r1_app.vnet.id
+#   tags = {
+#     Environment            = var.env
+#     Application-Taxonomy   = "DNS"
+#     Department             = var.tag_Department
+#     Terraform              = "Yes"
+#   }
+# }
 
 #logging
 resource "azurerm_monitor_diagnostic_setting" "cae_logs_01" {
@@ -165,14 +165,14 @@ resource "azurerm_container_app" "r1_containerapps_01" {
     }
 }
 
-#DNS A record
-resource azurerm_private_dns_a_record "r1_containerapps_01_dns" {
-  for_each = var.cae["cae01"].containers
-  provider            = azurerm.app
-  name                = azurerm_container_app.r1_containerapps_01[each.key].name
-  zone_name           = azurerm_private_dns_zone.r1_containerappenv_01_zone.name
-  resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
-  ttl                 = "3600"
-  records             = [azurerm_container_app_environment.r1_containerappenv_01.static_ip_address]
-} 
+# #DNS A record
+# resource azurerm_private_dns_a_record "r1_containerapps_01_dns" {
+#   for_each = var.cae["cae01"].containers
+#   provider            = azurerm.app
+#   name                = azurerm_container_app.r1_containerapps_01[each.key].name
+#   zone_name           = azurerm_private_dns_zone.r1_containerappenv_01_zone.name
+#   resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
+#   ttl                 = "3600"
+#   records             = [azurerm_container_app_environment.r1_containerappenv_01.static_ip_address]
+# } 
 
