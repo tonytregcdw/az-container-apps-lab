@@ -178,40 +178,12 @@ privatednszones = {
 
 keyvault-access = {
   "test" = {
-    # "bw-mg-nonprod-wholesale-contributor" = {
-    #   object_id = "a1be5851-1c70-4482-acd8-665885e531d8"
-    #   key_permissions = ["Get", "List", "UnwrapKey", "WrapKey"]
-    #   secret_permissions = ["Get", "List", "Set"]
-    #   certificate_permissions = ["Create","Delete","DeleteIssuers","Get","GetIssuers","Import","List","ListIssuers","ManageContacts","ManageIssuers","SetIssuers","Update","Purge",]
-    #   storage_permissions = ["Get", "List"]
-    # }
     # "admin-access" = {
     #   object_id = "ea54307d-2c04-4b64-b818-d6953e888c74"
     #   key_permissions = ["Get", "List", "UnwrapKey", "WrapKey", "Delete", "Purge", "Recover", "Restore", "Backup"]
     #   secret_permissions = ["Get", "List", "Set", "Delete", "Purge", "Recover", "Restore", "Backup"]
     #   certificate_permissions = ["Create","Delete","DeleteIssuers","Get","GetIssuers","Import","List","ListIssuers","ManageContacts","ManageIssuers","SetIssuers","Update","Purge",]
     #   storage_permissions = ["Get", "List", "Delete", "Set", "Purge"]
-    # }
-    # "az-software-developers" = {
-    #   object_id = "09dc2fcc-59a1-4873-b206-94f5bb69dddb"
-    #   key_permissions = []
-    #   secret_permissions = ["Get", "List", "Set"]
-    #   certificate_permissions = []
-    #   storage_permissions = []
-    # }
-    # "AZ - Solutions Architects" = {
-    #   object_id = "0031c92e-0a98-41ba-a366-e62b13c97721"
-    #   key_permissions = []
-    #   secret_permissions = ["Get", "List", "Set"]
-    #   certificate_permissions = []
-    #   storage_permissions = []
-    # }
-    # "bw-mg-prod-wholesale-contributor" = {
-    #   object_id = "e2cace89-ce3a-489e-aa66-c6643c2a7b30"
-    #   key_permissions = ["Get", "List", "UnwrapKey", "WrapKey"]
-    #   secret_permissions = ["Get", "List", "Set"]
-    #   certificate_permissions = ["Create","Delete","DeleteIssuers","Get","GetIssuers","Import","List","ListIssuers","ManageContacts","ManageIssuers","SetIssuers","Update","Purge",]
-    #   storage_permissions = ["Get", "List"]
     # }
     "deployment" = {
       object_id = null
@@ -225,101 +197,44 @@ keyvault-access = {
 
 cae = {
   cae01 = {
-    name = "epos"
+    name = "lab01"
     containers = {
-      app01 = {
+      web = {
+        name = "web"
+        containers = {
+          "container01" = {
+            name = "container01"
+            image  = "ghcr.io/tonytregcdw/docker-frontend-backend-db-lab/docker-lab-web:latest"
+            cpu    = 0.75
+            memory = "1.5Gi"
+            env_vars = {}
+            readiness_probe = {
+                port = 3000
+                transport = "TCP"
+            }
+          }
+        }
+        secrets = {
+        }
+        registries = {
+        }
+        ingress = {
+          target_port = "3000"
+          exposed_port = null
+          transport = "http"
+        }
+      }
+      api = {
         name = "api"
         containers = {
-          container01 = {
-            name = "epos-api"
-            image  = "ghcr.io/bestway-csg/epos-api:17"
-            cpu    = 0.75
-            memory = "1.5Gi"
-            env_vars = {
-              ABI_SFTP_HOST           = "10.197.75.33"
-              ABI_SFTP_ORDERS_PATH    = "/Export Files/Delivered_Test/Orders/API/"
-              ABI_SFTP_PORT           = "22"
-              EPOS_API_AUTH_URL       = "https://authbridgeapi.stage.costcutter.com"
-              EPOS_API_SERVICE_HOST   = "10.197.75.39"
-              EPOS_API_SERVICE_PORT   = "6001"
-              EPOS_DB_URL             = "jdbc:sqlserver://bwsqlukspos-test.database.windows.net:1433;database=bwsqldbuksapptest01;encrypt=true;trustServerCertificate=false;hostNameInCertificate=*.database.windows.net;loginTimeout=30;",
-              EPOS_DB_USER            = "eposdev"
-            }
-            readiness_probe = {
-              port = 8080
-              transport = "TCP"
-            }
-          }
-        }
-        secrets = {
-          # KV-SECRET-REFERENCE = ENV_VARIABLE_NAME
-          ABI-SFTP-USER             = "ABI_SFTP_USER"
-          # AZURE-STORAGE-CONNECTION  = "AZURE_STORAGE_CONNECTION"
-          ABI-SFTP-PASSWORD         = "ABI_SFTP_PASSWORD"
-          CONTAINER-TOKEN           = "CONTAINER_TOKEN"
-        }
-        registries = { # change this - not doing anything at present.
-          "ghcr.io" = {
-            server = "ghcr.io"
-            username = "tonytregcdw"
-            password_secret_name = "container-token"
-          }
-        }
-        ingress = {
-          target_port = "8080"
-          exposed_port = null
-          transport = "http"
-        }
-      }
-      app02 = {
-        name = "data"
-        containers = {
-          container01 = {
-            name = "epos-data-producer"
-            image  = "ghcr.io/bestway-csg/epos-data-producer:3"
-            cpu    = 0.75
-            memory = "1.5Gi"
-            env_vars = {
-            }
-            readiness_probe = {
-              port = 8080
-              transport = "TCP"
-            }
-          }
-        }
-        registries = { # change this - not doing anything at present.
-          "ghcr.io" = {
-            server = "ghcr.io"
-            username = "tonytregcdw"
-            password_secret_name = "container-token"
-          }
-        }
-        ingress = {
-          target_port = "8080"
-          exposed_port = "8080"
-          transport = "tcp"
-        }
-        secrets = {
-          # AZURE-STORAGE-CONNECTION  = "AZURE_STORAGE_CONNECTION"
-          CONTAINER-TOKEN           = "CONTAINER_TOKEN"
-        }
-      }
-    }
-  }
-  cae02 = {
-    name = "dts"
-    containers = {
-      app01 = {
-        name = "app01"
-        containers = {
           "container01" = {
             name = "container01"
-            image  = "nginx:latest"
+            image  = "ghcr.io/tonytregcdw/docker-frontend-backend-db-lab/docker-lab-api:latest"
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {}
             readiness_probe = {
-                port = 80
+                port = 3001
                 transport = "TCP"
             }
           }
@@ -329,47 +244,22 @@ cae = {
         registries = {
         }
         ingress = {
-          target_port = "80"
-          exposed_port = null
-          transport = "http"
-        }
-      }
-      app02 = {
-        name = "app02"
-        containers = {
-          "container01" = {
-            name = "container01"
-            image  = "nginx:latest"
-            cpu    = 0.75
-            memory = "1.5Gi"
-            env_vars = {}
-            readiness_probe = {
-                port = 80
-                transport = "TCP"
-            }
-          }
-        }
-        secrets = {
-        }
-        registries = {
-        }
-        ingress = {
-          target_port = "80"
-          exposed_port = "81"
+          target_port = "3001"
+          exposed_port = "3001"
           transport = "tcp"
         }
       }
-      app03 = {
-        name = "app03"
+      db = {
+        name = "db"
         containers = {
           "container01" = {
             name = "container01"
-            image  = "nginx:latest"
+            image  = "ghcr.io/tonytregcdw/docker-frontend-backend-db-lab/docker-lab-mongo:latest"
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {}
             readiness_probe = {
-                port = 80
+                port = 27017
                 transport = "TCP"
             }
           }
@@ -379,40 +269,8 @@ cae = {
         registries = {
         }
         ingress = {
-          target_port = "80"
-          exposed_port = "82"
-          transport = "tcp"
-        }
-      }
-      app04 = {
-        name = "app04"
-        containers = {
-          "container01" = {
-            name = "container01"
-            image  = "nginx:latest"
-            cpu    = 0.75
-            memory = "1.5Gi"
-            env_vars = {}
-            readiness_probe = {
-                port = 80
-                transport = "TCP"
-            }
-          }
-        }
-        secrets = {
-        }
-        registries = {
-        }
-        # registries = {
-        #   "ghcr.io" = {
-        #     server = "ghcr.io"
-        #     username = "ghcr-user"
-        #     password = "secret"
-        #   }
-        # }
-        ingress = {
-          target_port = "80"
-          exposed_port = "83"
+          target_port = "27017"
+          exposed_port = "27017"
           transport = "tcp"
         }
       }
@@ -427,35 +285,17 @@ appgw = {
     "name" = "app01"
     "protocol" = "Https"
     "port" = 443
-    "sku" = "WAF_v2"
+    "sku" = "Basic"
     "capacity" = 2
     "hostname" = "dev.appconnect.bestway.co.uk"
     "backend" = {
       app1 = {
-        pool_members = [{ fqdn = "bw-app-uks-frontend-test-01.azurewebsites.net" }]
-        path        = "/actuator/health"
-        port        = 443
-        protocol    = "Https"
-        backend_setting_hostname = null
-        listener_hostname = "dev.appconnect.bestway.co.uk"
-      }
-      # app2 = {
-      #   pool_members = [{ fqdn = "${azurerm_api_management_api.r1_apim_api_01.api_management_name}.azure-api.net" }]
-      #   path        = "/apitest01/actuator/health"
-      #   port        = 443
-      #   protocol    = "Https"
-      #   backend_setting_hostname = null
-      #   listener_hostname = "devapi.appconnect.bestway.co.uk"
-      # }
-      app3 = {
-        pool_members = [{ 
-          fqdn = "bw-ca-uks-dts-app01-test.ashypond-56daabcb.uksouth.azurecontainerapps.io"
-        }]
+        pool_members = [{ fqdn = "placeholder01" }]
         path        = "/"
         port        = 443
         protocol    = "Https"
         backend_setting_hostname = null
-        listener_hostname = "dts.bestway.co.uk"
+        listener_hostname = "app01.lab.co.uk"
       }
     }
   }
