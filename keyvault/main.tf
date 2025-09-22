@@ -1,6 +1,6 @@
 # Random IDs for keyvault Resources
 resource "random_id" "keyvault" {
-  byte_length = 6
+  byte_length = 7
 }
 
 data "azurerm_client_config" "current" {}
