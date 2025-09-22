@@ -20,7 +20,6 @@ variable "sub-management" {
   description = "sub-management"
   type = string
 }
-
 variable "sub-app" {
   description = "sub-app"
   type = string
