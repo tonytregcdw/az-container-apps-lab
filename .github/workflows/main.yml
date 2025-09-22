@@ -67,7 +67,7 @@ jobs:
             -backend-config="resource_group_name=$RESOURCE_GROUP" \
             -backend-config="storage_account_name=$STORAGE_ACCOUNT" \
             -backend-config="container_name=$CONTAINER_NAME" \
-            -backend-config="key=bwwapps/$ENVIRONMENT/terraform.tfstate"
+            -backend-config="key=tfcapps/$ENVIRONMENT/terraform.tfstate"
 
       - name: Terraform Plan
         env:
