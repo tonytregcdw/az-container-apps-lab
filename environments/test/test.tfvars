@@ -9,7 +9,7 @@ sub-management = "a2d3df79-3372-479d-83b8-7140c9f56b5c"
 sub-app = "a2d3df79-3372-479d-83b8-7140c9f56b5c"
 
 # Core Naming
-code = "lab"
+code = "calab"
 
 #Management groups
 tenant-root-group = "Tenant Root Group"
