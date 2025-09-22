@@ -219,6 +219,7 @@ cae = {
         registries = {
         }
         ingress = {
+          external_enabled = true
           target_port = "3000"
           exposed_port = null
           transport = "http"
@@ -244,6 +245,7 @@ cae = {
         registries = {
         }
         ingress = {
+          external_enabled = false
           target_port = "3001"
           exposed_port = "3001"
           transport = "tcp"
@@ -269,6 +271,7 @@ cae = {
         registries = {
         }
         ingress = {
+          external_enabled = false
           target_port = "27017"
           exposed_port = "27017"
           transport = "tcp"

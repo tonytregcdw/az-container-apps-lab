@@ -110,7 +110,7 @@ resource "azurerm_container_app" "r1_containerapps_01" {
     # }
 
     ingress {
-        external_enabled = true
+        external_enabled = each.value.ingress.external_enabled
         traffic_weight {
             percentage = 100
             latest_revision = true
