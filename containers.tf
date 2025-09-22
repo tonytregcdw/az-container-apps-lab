@@ -7,8 +7,7 @@ resource "azurerm_container_app_environment" "r1_containerappenv_01" {
     provider            = azurerm.app
     location            = azurerm_resource_group.r1_rg_app_appservices_01.location
     resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
-    # infrastructure_resource_group_name = azurerm_resource_group.r1_rg_app_cae_infra_01.name
-    infrastructure_resource_group_name = "${var.code}-rg-${var.region1code}-${var.env}-cae-infra-01"
+    # infrastructure_resource_group_name = "${var.code}-rg-${var.region1code}-${var.env}-cae-infra-01"
     tags = {
         Environment            = var.env
         Application-Taxonomy   = "applications"
