@@ -20,14 +20,6 @@ variable "sub-management" {
   description = "sub-management"
   type = string
 }
-variable "sub-app-prod" {
-  description = "sub-app-prod"
-  type = string
-}
-variable "sub-app-test" {
-  description = "sub-app-test"
-  type = string
-}
 
 variable "sub-app" {
   description = "sub-app"
@@ -259,22 +251,6 @@ variable "region1-snets" {
   type = any
 }
 
-
-variable "vnetsdata" {
-  description = "Existing vnet map for data sources"
-  type = any
-}
-
-variable "resourcegroupsdata" {
-  description = "Existing resource group map for data sources"
-  type = any
-}
-
-variable "logsdata" {
-  description = "Existing log analytics data source"
-  type = any
-}
-
 variable "r1-gateway" {
   description = "r2 default gateway, if no virtual appliance is created"
   type = string
@@ -289,118 +265,14 @@ variable "r2-gateway" {
 
 variable "app-gateways" {
   type = map
-  default = {
-    "r101" = {
-      "name" = "app01"
-      "ip" = "10.10.13.10"
-      "protocol" = "Https"
-      "port" = 443
-    }
-    "r102" = {
-      "name" = "app02"
-      "ip" = "10.10.13.11"
-      "protocol" = "Https"
-      "port" = 443
-    }
-  }
+  default = {}
 }
 
 
-variable "sqlserver" {
-  description = "sqlserver map for creation"
-  type = any
-}
-
-variable "sqldb" {
-  description = "sqldb map for creation"
-  type = any
-}
-
-variable "redis" {
-  description = "redis map for creation"
-  type = any
-}
-
-
-variable "vm-dc" {
-  type = map
-  default = {
-    "r101" = {
-      "name" = "VMAZ-DC01"
-      "ip" = "10.10.16.10"
-    }
-    "r102" = {
-      "name" = "VMAZ-DC02"
-      "ip" = "10.10.16.11"
-    }
-    "r201" = {
-      "name" = "VMAZ-DC03"
-      "ip" = "10.11.16.10"
-    }
-    "r202" = {
-      "name" = "VMAZ-DC04"
-      "ip" = "10.11.16.11"
-    }
-  }
-}
-
-variable "r1-createfw" {
-  description = "toggle firewall creation"
-  type   = bool
-  default = false
-}
-
-variable "r2-createfw" {
-  description = "toggle firewall creation"
-  type   = bool
-  default = false
-}
-
-variable "r1-createvng" {
-  description = "toggle vpn creation"
-  type   = bool
-  default = false
-}
-
-variable "r2-createvng" {
-  description = "toggle vpn creation"
-  type   = bool
-  default = false
-}
-
-variable "r1-createbastion" {
-  description = "toggle bastion creation"
-  type   = bool
-  default = false
-}
-
-variable "r2-createbastion" {
-  description = "toggle bastion creation"
-  type   = bool
-  default = false
-}
-
-variable "onpremise-dc1-cidr" {
-  description = "onpremise DC1 ip range"
-  type = list
-  default = ["10.100.0.0/16"]
-}
 
 variable "dns-servers" {
   description = "DNS servers"
   type = list
-}
-
-variable "dnszones_mgmt_enabled" {
-  description = "DNS servers"
-  type = bool
-  default = false
-}
-
-variable "dnszones_identity_enabled" {
-  description = "DNS servers"
-  type = bool
-  default = true
 }
 
 variable "privatednszones" {
@@ -411,8 +283,8 @@ variable "privatednszones" {
     }
     "privatelink.azurecr.io" = {
     }
-    # "privatelink.blob.core.windows.net" = {
-    # }
+    "privatelink.blob.core.windows.net" = {
+    }
     "privatelink.database.windows.net" = {
     }
     # "privatelink.dfs.core.windows.net" = {
@@ -436,128 +308,19 @@ variable "privatednszones" {
   }
 }
 
-variable "vmmgmt" {
-  type = map
-  default = {
-    "prod-vm-01" = {
-      "name" = "AZVTESTM01"
-      "size" = "Standard_DS1_v2"
-      "avzone" = 1
-      "tagenvironment" = "Test"
-      "tagapplicationtaxonomy" = "Test"
-      "tagowner" = "LandingZone"
-      "disktype" = "StandardSSD_LRS"
-      "image" = {
-        "publisher" = "MicrosoftWindowsServer"
-        "offer" = "WindowsServer"
-        "sku" = "2019-Datacenter"
-        "version" = "latest"
-      }
-    }
-  }
-}
-
-
-variable "vmidentity" {
-  type = map
-  default = {
-    "prod-vm-01" = {
-      "name" = "AZVTESTM02"
-      "size" = "Standard_DS1_v2"
-      "avzone" = 1
-      "tagenvironment" = "Test"
-      "tagapplicationtaxonomy" = "Test"
-      "tagowner" = "LandingZone"
-      "disktype" = "StandardSSD_LRS"
-      "image" = {
-        "publisher" = "MicrosoftWindowsServer"
-        "offer" = "WindowsServer"
-        "sku" = "2019-Datacenter"
-        "version" = "latest"
-      }
-    }
-  }
-}
-
 variable "keyvault-access" {
   default = {}
 }
 
-variable "apimgmt" {
-  description = "API mgmt Map for Creation"
-  type = any
-}
-
-variable "container_user" {
-  description = "user for container registry"
-  type = string
-  sensitive = true
-}
-
-variable "container_token" {
-  description = "token for container registry"
-  type = string
-  sensitive = true
-}
-
-variable "db_pass" {
-  description = "password for test database"
-  type = string
-  sensitive = true
-}
-
-variable "abi_sftp_user" {  
-  description = "user for abi sftp"
-  type = string
-  sensitive = true
-}
-
-variable "abi_sftp_password" {
-  description = "password for abi sftp"
-  type = string
-  sensitive = true
-}
-
-# variable "azure_storage_connection" {
-#   description = "SAS for storage account"
-#   type = string
-#   sensitive = true
-# }
-
-# variable "key_vault_test_secrets" {
-#   type = map(string)
-#   description = "Map of secret names to secret values."
-# }
-
-
-# variable "containerappenv" {
-#   description = "container app environment map for creation"
-#   type = any
-# }
-
-variable "containerapp" {
-  description = "container app for creation"
-  type = any
-}
 
 variable "cae" {
   description = "container app for creation"
   type = any
 }
 
-variable "linux-vm" {
-  description = "map for Linux VM creation"
-  type = any
-  default = {}
-}
 
 variable "appgw" {
   description = "map for app gateway creation"
   type = any
   default = {}
-}
-
-variable "postgresdb" {
-  description = "Postgres DB map for creation"
-  type = any
 }

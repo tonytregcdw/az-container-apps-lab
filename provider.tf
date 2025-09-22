@@ -58,21 +58,7 @@ provider "azurerm" {
   resource_provider_registrations = "none"
 }
 
-# Applications Production
-provider "azurerm" {
-  features {}
-  alias           = "appprod"
-  subscription_id = var.sub-app-prod
-}
-
-# Applications Test
-provider "azurerm" {
-  features {}
-  alias           = "apptest"
-  subscription_id = var.sub-app-test
-}
-
-# Applications Test
+# Applications environment
 provider "azurerm" {
   features {}
   alias           = "app"
