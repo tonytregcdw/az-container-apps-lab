@@ -45,16 +45,16 @@ data "azurerm_resources" "dnszones" {
   provider = azurerm.identity
 }
 
-#data - r1 identity dns rg
-data "azurerm_resource_group" "rg_dns" {
-  name = var.resourcegroupsdata.dns.name
-  provider = azurerm.identity
-}
+# #data - r1 identity dns rg
+# data "azurerm_resource_group" "rg_dns" {
+#   name = var.resourcegroupsdata.dns.name
+#   provider = azurerm.identity
+# }
 
-data "azurerm_resource_group" "rg_management" {
-  name = var.resourcegroupsdata.management.name
-  provider = azurerm.management
-}
+# data "azurerm_resource_group" "rg_management" {
+#   name = var.resourcegroupsdata.management.name
+#   provider = azurerm.management
+# }
 
 
 locals {

@@ -15,7 +15,7 @@ module "r1_keyvault_app_01" {
   regioncode = var.region1code
   tag_Department = var.tag_Department
   tag_Environment = var.env
-  logging = data.azurerm_log_analytics_workspace.logs
+  logging = azurerm_log_analytics_workspace.r1_logs_app_01
   entra_groups = var.keyvault-access["${var.env}"]
   private-endpoint = {}
 }
