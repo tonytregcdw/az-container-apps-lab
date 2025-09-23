@@ -204,12 +204,12 @@ cae = {
         containers = {
           "container01" = {
             name = "container01"
-            image  = "ghcr.io/tonytregcdw/docker-frontend-backend-db-lab/docker-lab-web:1.0.1"
+            image  = "ghcr.io/tonytregcdw/docker-ca-lab-web:1.0.1 "
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {}
             readiness_probe = {
-                port = 3000
+                port = 80
                 transport = "TCP"
             }
           }
@@ -220,7 +220,7 @@ cae = {
         }
         ingress = {
           external_enabled = true
-          target_port = "3000"
+          target_port = "80"
           exposed_port = null
           transport = "http"
         }
@@ -230,12 +230,12 @@ cae = {
         containers = {
           "container01" = {
             name = "container01"
-            image  = "ghcr.io/tonytregcdw/docker-frontend-backend-db-lab/docker-lab-api:1.0.1"
+            image  = "ghcr.io/tonytregcdw/docker-ca-lab-api:1.0.1"
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {}
             readiness_probe = {
-                port = 3001
+                port = 8000
                 transport = "TCP"
             }
           }
@@ -246,8 +246,8 @@ cae = {
         }
         ingress = {
           external_enabled = false
-          target_port = "3001"
-          exposed_port = "3001"
+          target_port = "8000"
+          exposed_port = "8000"
           transport = "tcp"
         }
       }
@@ -256,7 +256,7 @@ cae = {
         containers = {
           "container01" = {
             name = "container01"
-            image  = "ghcr.io/tonytregcdw/docker-frontend-backend-db-lab/docker-lab-mongo:1.0.1"
+            image  = "mongo:4.4.18"
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {}
