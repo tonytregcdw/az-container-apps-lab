@@ -232,7 +232,7 @@ cae = {
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {
-              API_URL = "http://api:8000/people/"
+              MONGODB_URL = "mongodb://mongo:27017"
             }
             readiness_probe = {
                 port = 8000
