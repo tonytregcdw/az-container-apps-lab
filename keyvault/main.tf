@@ -63,13 +63,13 @@ module "keyvault_privateendpoint" {
     tag_Environment = var.tag_Environment
 }
 
-resource "null_resource" "wait_for_dns" {
-  provisioner "local-exec" {
-    command = "sleep 60"  # Wait for for private DNS record to update
-  }
+# resource "null_resource" "wait_for_dns" {
+#   provisioner "local-exec" {
+#     command = "sleep 60"  # Wait for for private DNS record to update
+#   }
 
-  depends_on = [module.keyvault_privateendpoint.pe]
-}
+#   depends_on = [module.keyvault_privateendpoint.pe]
+# }
 
 #add logging if provided
 resource "azurerm_monitor_diagnostic_setting" "logs" {
