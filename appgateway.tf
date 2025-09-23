@@ -6,7 +6,7 @@ resource "azurerm_key_vault_certificate" "appgw_01_cert" {
   key_vault_id = module.r1_keyvault_app_01.kv.id
   depends_on = [ 
     azurerm_key_vault_access_policy.userid_appgw_01_access_kv_app_01,
-    module.r1_keyvault_app_01
+    module.r1_keyvault_app_01.entra_groups
   ]
 
   certificate_policy {
