@@ -233,6 +233,7 @@ cae = {
             memory = "1.5Gi"
             env_vars = {
               MONGODB_URL = "mongodb://calab-ca-uks-lab01-db-test:27017"
+              SECRET_VALUE = "this-is-not-a-secret"
             }
             readiness_probe = {
                 port = 8000
