@@ -204,7 +204,7 @@ cae = {
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {
-              API_URL = "http://api:8000/people/"
+              API_URL = "http://calab-ca-uks-lab01-api-prod:8000/people/"
             }
             readiness_probe = {
                 port = 80
@@ -232,7 +232,7 @@ cae = {
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {
-              MONGODB_URL = "mongodb://mongo:27017"
+              MONGODB_URL = "mongodb://calab-ca-uks-lab01-db-prod:27017"
             }
             readiness_probe = {
                 port = 8000

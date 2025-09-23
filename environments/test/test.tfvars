@@ -204,7 +204,7 @@ cae = {
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {
-              API_URL = "http://api:8000/people/"
+              API_URL = "http://calab-ca-uks-lab01-api-prod:8000/people/"
             }
             readiness_probe = {
                 port = 80
@@ -232,7 +232,7 @@ cae = {
             cpu    = 0.75
             memory = "1.5Gi"
             env_vars = {
-              MONGODB_URL = "mongodb://mongo:27017"
+              MONGODB_URL = "mongodb://calab-ca-uks-lab01-db-prod:27017"
             }
             readiness_probe = {
                 port = 8000
@@ -283,23 +283,23 @@ cae = {
 
 
 appgw = {
-  test = {
-    "name" = "app01"
-    "protocol" = "Https"
-    "port" = 443
-    "sku" = "Standard_v2"
-    "capacity" = 2
-    "hostname" = "web.lab.co.uk"
-    "backend" = {
-      app1 = {
-        pool_members = [{ fqdn = "placeholder01" }]
-        path        = "/"
-        port        = 443
-        protocol    = "Https"
-        backend_setting_hostname = null
-        listener_hostname = "app01.lab.co.uk"
-      }
-    }
-  }
+  # test = {
+  #   "name" = "app01"
+  #   "protocol" = "Https"
+  #   "port" = 443
+  #   "sku" = "Standard_v2"
+  #   "capacity" = 2
+  #   "hostname" = "web.lab.co.uk"
+  #   "backend" = {
+  #     app1 = {
+  #       pool_members = [{ fqdn = "placeholder01" }]
+  #       path        = "/"
+  #       port        = 443
+  #       protocol    = "Https"
+  #       backend_setting_hostname = null
+  #       listener_hostname = "app01.lab.co.uk"
+  #     }
+  #   }
+  # }
 }
 
