@@ -50,12 +50,6 @@ variable "mg-applications" {
   default = "mg-applications"
 }
 
-variable "mg-devtest" {
-  description = "mg-devtest"
-  type = string
-  default = "mg-devtest"
-}
-
 # Locations
 variable "region1" {
   type        = string

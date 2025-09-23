@@ -2,18 +2,6 @@
 
 data "azurerm_client_config" "current" {}
 
-# data "azurerm_management_group" "mg_prod" {
-#   name = var.mg-prod-id
-# }
-
-# data "azurerm_management_group" "mg_applications" {
-#   name = var.mg-applications
-# }
-
-# data "azurerm_management_group" "mg_devtest" {
-#   name = var.mg-devtest 
-# }
-
 # data "azurerm_resources" "vnets" {
 #   type = "Microsoft.Network/virtualNetworks"
 #   provider = azurerm.connectivity
@@ -62,7 +50,6 @@ locals {
     for obj in data.azurerm_resources.dnszones.resources : obj.name => obj
   }
 }
-
 
 # # Logging
 # data "azurerm_log_analytics_workspace" "logs" {

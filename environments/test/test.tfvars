@@ -16,8 +16,6 @@ tenant-root-group = "Tenant Root Group"
 mg-root-id = "mg-root"
 mg-prod-id = "mg-prod"
 mg-applications = "mg-apps"
-mg-devtest = "mg-test"
-
 
 # Locations
 region1     = "UK South"
@@ -44,7 +42,6 @@ app1 = "myapp"
 
 # Networking
 # Virtual Networks
-
 region1-spoke-vnets = {
   apptest = {
     name = "apptest"
@@ -87,7 +84,6 @@ region1-spoke-vnets = {
 #       rg = "bw-rg-uks-management"
 #   }
 # }
-
 
 
 #subnets
@@ -280,7 +276,6 @@ cae = {
     }
   }
 }
-
 
 
 appgw = {
