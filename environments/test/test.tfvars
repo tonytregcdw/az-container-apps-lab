@@ -205,6 +205,7 @@ cae = {
             memory = "1.5Gi"
             env_vars = {
               API_URL = "http://calab-ca-uks-lab01-api-test:8000/people/"
+              SECRET_VALUE = "this-is-not-a-secret"
             }
             readiness_probe = {
                 port = 80
@@ -233,7 +234,6 @@ cae = {
             memory = "1.5Gi"
             env_vars = {
               MONGODB_URL = "mongodb://calab-ca-uks-lab01-db-test:27017"
-              SECRET_VALUE = "this-is-not-a-secret"
             }
             readiness_probe = {
                 port = 8000
