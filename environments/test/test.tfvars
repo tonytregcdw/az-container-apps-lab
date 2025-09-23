@@ -203,7 +203,9 @@ cae = {
             image  = "ghcr.io/tonytregcdw/docker-ca-lab-web:1.0.1 "
             cpu    = 0.75
             memory = "1.5Gi"
-            env_vars = {}
+            env_vars = {
+              API_URL = "http://api:8000/people/"
+            }
             readiness_probe = {
                 port = 80
                 transport = "TCP"
@@ -229,7 +231,9 @@ cae = {
             image  = "ghcr.io/tonytregcdw/docker-ca-lab-api:1.0.1"
             cpu    = 0.75
             memory = "1.5Gi"
-            env_vars = {}
+            env_vars = {
+              API_URL = "http://api:8000/people/"
+            }
             readiness_probe = {
                 port = 8000
                 transport = "TCP"
