@@ -289,7 +289,7 @@ appgw = {
     "port" = 443
     "sku" = "Standard_v2"
     "capacity" = 2
-    "hostname" = "dev.appconnect.bestway.co.uk"
+    "hostname" = "web.lab.co.uk"
     "backend" = {
       app1 = {
         pool_members = [{ fqdn = "placeholder01" }]

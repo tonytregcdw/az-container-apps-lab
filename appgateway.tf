@@ -48,7 +48,7 @@ resource "azurerm_key_vault_certificate" "appgw_01_cert" {
       ]
 
       subject_alternative_names {
-        dns_names = ["dev.appconnect.bestway.co.uk", "uat.appconnect.bestway.co.uk"]
+        dns_names = ["web.lab.co.uk", "webtest.lab.co.uk"]
       }
 
       subject            = "CN=appgatway"
