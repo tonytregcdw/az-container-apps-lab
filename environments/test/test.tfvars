@@ -278,6 +278,34 @@ cae = {
           transport = "tcp"
         }
       }
+      redis = {
+        name = "redis"
+        containers = {
+          "container01" = {
+            name = "container01"
+            image  = "redis:latest"
+            cpu    = 0.75
+            memory = "1.5Gi"
+            env_vars = {
+              REDIS_DATABASES = "4"
+            }
+            readiness_probe = {
+                port = 6379
+                transport = "TCP"
+            }
+          }
+        }
+        secrets = {
+        }
+        registries = {
+        }
+        ingress = {
+          external_enabled = false
+          target_port = "6379"
+          exposed_port = "6379"
+          transport = "tcp"
+        }
+      }
     }
   }
 }
