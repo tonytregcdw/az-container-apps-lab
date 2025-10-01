@@ -206,6 +206,8 @@ cae = {
             env_vars = {
               API_URL = "http://calab-ca-uks-lab01-api-test:8000/people/"
               SECRET_VALUE = "this-is-not-a-secret"
+              REDIS_HOST = "calab-ca-uks-lab01-redis-test"
+              REDIS_PORT = "6379"
             }
             readiness_probe = {
                 port = 80
@@ -234,6 +236,8 @@ cae = {
             memory = "1.5Gi"
             env_vars = {
               MONGODB_URL = "mongodb://calab-ca-uks-lab01-db-test:27017"
+              REDIS_HOST = "calab-ca-uks-lab01-redis-test"
+              REDIS_PORT = "6379"
             }
             readiness_probe = {
                 port = 8000
