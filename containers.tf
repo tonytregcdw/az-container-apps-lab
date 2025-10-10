@@ -7,7 +7,6 @@ resource "azurerm_container_app_environment" "r1_containerappenv_01" {
     provider            = azurerm.app
     location            = azurerm_resource_group.r1_rg_app_appservices_01.location
     resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
-    zone_redundancy_enabled = try(var.cae["cae01"].zone_redundancy_enabled, false)
     tags = {
         Environment            = var.env
         Application-Taxonomy   = "applications"
@@ -32,8 +31,9 @@ resource "azurerm_container_app_environment" "r1_containerappenv_01" {
         workload_profile_type = "Consumption"
     }
 
-    # internal_load_balancer_enabled = true
-    # infrastructure_subnet_id = module.spokevnets_r1_app.subnetmap["snet-app-${var.env}-containerapps-01"].id
+    internal_load_balancer_enabled = true
+    infrastructure_subnet_id = module.spokevnets_r1_app.subnetmap["snet-app-${var.env}-containerapps-01"].id
+    zone_redundancy_enabled = try(var.cae["cae01"].zone_redundancy_enabled, false)
 }
 
 
