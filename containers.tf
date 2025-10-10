@@ -31,9 +31,9 @@ resource "azurerm_container_app_environment" "r1_containerappenv_01" {
         workload_profile_type = "Consumption"
     }
 
-    internal_load_balancer_enabled = true
-    infrastructure_subnet_id = module.spokevnets_r1_app.subnetmap["snet-app-${var.env}-containerapps-01"].id
-    zone_redundancy_enabled = try(var.cae["cae01"].zone_redundancy_enabled, false)
+    # internal_load_balancer_enabled = true
+    # infrastructure_subnet_id = module.spokevnets_r1_app.subnetmap["snet-app-${var.env}-containerapps-01"].id
+    # zone_redundancy_enabled = try(var.cae["cae01"].zone_redundancy_enabled, false)
 }
 
 
