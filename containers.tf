@@ -7,7 +7,7 @@ resource "azurerm_container_app_environment" "r1_containerappenv_01" {
     provider            = azurerm.app
     location            = azurerm_resource_group.r1_rg_app_appservices_01.location
     resource_group_name = azurerm_resource_group.r1_rg_app_appservices_01.name
-    # infrastructure_resource_group_name = "${var.code}-rg-${var.region1code}-${var.env}-cae-infra-01"
+    zone_redundancy_enabled = try(var.cae["cae01"].zone_redundancy_enabled, false)
     tags = {
         Environment            = var.env
         Application-Taxonomy   = "applications"
@@ -159,8 +159,8 @@ resource "azurerm_container_app" "r1_containerapps_01" {
                 transport = each.value.containers["container01"].readiness_probe.transport
             }
         }
-        max_replicas            = 1
-        min_replicas            = 1
+        max_replicas            = try(each.value.max_replicas, 1)
+        min_replicas            = try(each.value.min_replicas, 1)
     }
 }
 

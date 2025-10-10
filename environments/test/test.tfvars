@@ -225,6 +225,8 @@ cae = {
           exposed_port = null
           transport = "http"
         }
+        max_replicas = 2
+        min_replicas = 2
       }
       api = {
         name = "api"
@@ -255,6 +257,8 @@ cae = {
           exposed_port = "8000"
           transport = "tcp"
         }
+        max_replicas = 2
+        min_replicas = 2
       }
       db = {
         name = "db"
