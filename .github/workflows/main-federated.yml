@@ -1,0 +1,125 @@
+name: Terraform Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'select environment'
+        required: true
+        type: choice
+        default: 'test'
+        options:
+          - test
+          - prod
+      Action:
+        description: 'Action to perform'
+        type: choice
+        required: true
+        default: 'Plan'
+        options:
+          - Plan
+          - Apply
+          - Destroy
+      Destroy_Confirm:
+        description: 'Type "destroy" to confirm the destruction. Required ONLY if you choose Destroy above.'
+        required: false
+        default: ''
+        type: string
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event_name == 'push' && 'test' || github.event.inputs.environment }}
+    permissions:
+      id-token: write      # This is required for GitHub OIDC federation
+      contents: read
+
+    steps:
+      - name: Require confirmation if destroying
+        if: ${{ github.event.inputs.Action == 'Destroy' }}
+        run: |
+          if [ "${{ github.event.inputs.Destroy_Confirm }}" != "destroy" ]; then
+            echo "ERROR: You must type 'destroy' in the Destroy_Confirm box to proceed with Destroy action."
+            exit 1
+          fi
+
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Install Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: '1.12.2'
+
+      - name: Azure Federated Login
+        uses: azure/login@v2
+        with:
+          client-id: ${{ vars.ARM_CLIENT_ID }}
+          tenant-id: ${{ vars.ARM_TENANT_ID }}
+          subscription-id: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          enable-AzPSSession: false
+
+      - name: Terraform Init
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          RESOURCE_GROUP: ${{ vars.TF_RESOURCE_GROUP }}
+          STORAGE_ACCOUNT: ${{ vars.TF_STORAGE_ACCOUNT }}
+          CONTAINER_NAME: ${{ vars.TF_CONTAINER_NAME }}
+          ENVIRONMENT: ${{ vars.TF_ENVIRONMENT }}
+          TF_VAR_env: ${{ vars.TF_ENVIRONMENT }}
+        run: |
+          terraform init \
+            -backend-config="resource_group_name=$RESOURCE_GROUP" \
+            -backend-config="storage_account_name=$STORAGE_ACCOUNT" \
+            -backend-config="container_name=$CONTAINER_NAME" \
+            -backend-config="key=tfcapps/$ENVIRONMENT/terraform.tfstate"
+
+      - name: Terraform Plan
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          ENVIRONMENT: ${{ vars.TF_ENVIRONMENT }}
+          TF_VAR_env: ${{ vars.TF_ENVIRONMENT }}
+        if: github.event_name == 'push' || (github.event_name == 'workflow_dispatch' && inputs.Action == 'Plan')
+        run: |
+          terraform plan \
+            -input=false \
+            -var-file="environments/$ENVIRONMENT/$ENVIRONMENT.tfvars"
+
+      - name: Terraform Apply
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          ENVIRONMENT: ${{ vars.TF_ENVIRONMENT }}
+          TF_VAR_env: ${{ vars.TF_ENVIRONMENT }}
+        if: github.event_name == 'workflow_dispatch' && inputs.Action == 'Apply'
+        run: |
+          terraform apply \
+            -input=false \
+            -auto-approve \
+            -var-file="environments/$ENVIRONMENT/$ENVIRONMENT.tfvars"
+
+      - name: Terraform Destroy
+        env:
+          ARM_USE_OIDC: true
+          ARM_CLIENT_ID: ${{ vars.ARM_CLIENT_ID }}
+          ARM_TENANT_ID: ${{ vars.ARM_TENANT_ID }}
+          ARM_SUBSCRIPTION_ID: ${{ vars.ARM_SUBSCRIPTION_ID }}
+          ENVIRONMENT: ${{ vars.TF_ENVIRONMENT }}
+          TF_VAR_env: ${{ vars.TF_ENVIRONMENT }}
+        if: github.event_name == 'workflow_dispatch' && inputs.Action == 'Destroy'
+        run: |
+          terraform destroy \
+            -input=false \
+            -auto-approve \
+            -var-file="environments/$ENVIRONMENT/$ENVIRONMENT.tfvars"
